@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Guide>
+@{
+    ViewData["Title"] = "Tüm İçerikler";
+}
+<h1>Bütün İçerikler</h1>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-6 flex-lg-wrap">
+            <!-- Blog post-->
+            <div class="card mb-4 bg-dark">
+                <a asp-controller="Guides" asp-action="Details" asp-route-Id="@item.Id"><img class="card-img-top" src="~/Header.png" alt="..." /></a>
+                <div class="card-body text-light">
+                    <div class="small text-muted">@item.CreatedDate</div>
+                    <div class="small text-muted">@item.Department.Name</div>
+                    <h2 class="card-title h4">@item.Name</h2>
+                    <p class="card-text">@item.Description</p>
+                    <a class="btn btn-primary" href="FileDown/@item.Id">İndir</a>
+                    <a  target="_blank" class="btn btn-warning" href="@item.File">İncele</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

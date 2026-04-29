@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Guide>
+@{
+    ViewData["Title"] = "Departmanlar";
+}
+
+<h1>@ViewData["Dep"]</h1>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-6 flex-lg-wrap">
+            <!-- Blog post-->
+            <div class="card mb-4 bg-dark">
+                <a href="@item.File"><img class="card-img-top" src="~/Header.png" alt="..." /></a>
+                <div class="card-body text-light">
+                    <div class="small text-muted">@item.CreatedDate</div>
+
+                    <h2 class="card-title h4">@item.Name</h2>
+                    <p class="card-text">@item.Department.Name</p>
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="FileDown" asp-route-id="@item.Id">İndir</a>
+                </div>
+            </div>
+            <!-- Blog post-->
+
+        </div>
+    }
+</div>

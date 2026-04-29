@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Entities.Guide>
+
+<table class="table card-body">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.File)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="max-height:45px" alt="">
+
+                </td>
+                <td>
+                    <a class="btn btn-link" asp-action="FileDown" asp-route-id="@item.Id">
+                        <i class="fas fa-download btn btn-secondary"></i>
+                    </a>
+                    <a class="btn btn-primary" target="_blank" href="@item.File"><i class="fas fa-file"></i></a>
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department.Name)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

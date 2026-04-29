@@ -1,0 +1,28 @@
+# EditorConfig - Code style guidelines for consistency
+# See https://editorconfig.org
+
+root = true
+
+# All files
+[*]
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+# C# files
+[*.cs]
+indent_size = 4
+end_of_line = crlf
+
+# Razor views
+[*.cshtml]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# XML files
+[*.xml]
+indent_size = 2

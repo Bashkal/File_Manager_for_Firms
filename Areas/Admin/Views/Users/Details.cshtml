@@ -1,0 +1,75 @@
+﻿@model Entities.User
+
+@{
+    ViewData["Title"] = "Kullanıcı Bilgileri";
+}
+
+<h1>Kullanıcı Bilgileri</h1>
+
+<div>
+    
+    <hr />
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <dl class="row">
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.Password)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.Password)
+                </dd>
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.IsAdmin)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.IsAdmin)
+                </dd>
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+                <dt class="col-sm-5">
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </dt>
+                <dd class="col-sm-5">
+                    @Html.DisplayFor(model => model.CreatedDate)
+                </dd>
+            </dl>
+            <div>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Düzenle</a> 
+                <a class="btn btn-secondary" asp-action="Index">Listeye Dön</a>
+            </div>
+        </div>
+        <div class="col-md-5"><img src="~/FIRM_LOGO.png" /></div>
+        <div class="col-md-1"></div>
+
+    </div>
+</div>
+

@@ -1,0 +1,112 @@
+﻿@model Entities.Guide
+
+@{
+    ViewData["Title"] = "Kılavuz Düzenle";
+}
+
+<h1>Kılavuz Bilgilerini Düzenle</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <input type="hidden" asp-for="Image" />
+            <input type="hidden" asp-for="File" />
+            <input type="hidden" asp-for="FileType" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" type="file" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="File" class="control-label"></label>
+                <input asp-for="File" type="file" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DepartmentId" class="control-label"></label>
+                <select asp-for="DepartmentId" class="form-select" asp-items="ViewBag.DepartmentId"></select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-action="Index">Listeye Dön</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+
+    @if (Model.FileType == ".mp4")
+    {
+        <div class="col-md-6 text-muted">
+            <video id="myVideo" style="width:100%" controls="controls">
+                <source src="@Model.File" type="video/mp4" />
+            </video>
+
+            <div class="form-group mt-3">
+                <input type="text" id="chapterTitle" class="form-control mb-2" placeholder="Chapter başlığı (isteğe bağlı)" />
+                <button type="button" id="addChapterBtn" class="btn btn-success">
+                    Bu Noktadan Chapter Ekle
+                </button>
+            </div>
+
+            <div id="chapterMessage" class="mt-2 text-success" style="display:none;"></div>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-2"></div>
+        <div class="col-md-4 text-muted">
+            <img src="~/FIRM_LOGO.png" alt="Firm Logo" />
+        </div>
+    }
+    <div class="col-md-1"></div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById("addChapterBtn")?.addEventListener("click", function () {
+            let video = document.getElementById("myVideo");
+            let currentTime = video.currentTime;
+            let title = document.getElementById("chapterTitle").value;
+
+            fetch('@Url.Action("AddChapter", "Guides", new { area = "Admin" })', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    guideId: @Model.Id,
+                    timeInSeconds: currentTime,
+                    title: title
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                let msg = document.getElementById("chapterMessage");
+                msg.textContent = data.message;
+                msg.style.display = "block";
+            })
+            .catch(err => console.error("Hata:", err));
+        });
+    </script>
+}

@@ -1,0 +1,106 @@
+﻿@model Entities.Guide
+
+@{
+    ViewData["Title"] = "Kılavuz Bilgileri";
+}
+
+<h1>Kılavuz Bilgileri</h1>
+<hr>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+        <dl>
+            <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Image)</dt>
+            <dd><img src="@Html.DisplayFor(model => model.Image)" style="max-height:100px" alt=""></dd>
+
+            <dt>@Html.DisplayNameFor(model => model.File)</dt>
+            <dd>
+                <a target="_blank" href="@Html.DisplayFor(model => model.File)"><i class="fas fa-file btn btn-primary"></i></a>
+                <a asp-action="FileDown" asp-route-id="@(Model.Id)"><i class="fas fa-download btn btn-secondary"></i></a>
+            </dd>
+
+            <dt>@Html.DisplayNameFor(model => model.CreatedDate)</dt>
+            <dd>@Html.DisplayFor(model => model.CreatedDate)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.UpdatedDate)</dt>
+            <dd>@Html.DisplayFor(model => model.UpdatedDate)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Department)</dt>
+            <dd>@Html.DisplayFor(model => model.Department.Name)</dd>
+        </dl>
+
+        <div>
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Düzenle</a>
+            <a class="btn btn-secondary" asp-action="Index">Listeye Dön</a>
+        </div>
+    </div>
+
+    @if (Model.FileType == ".mp4")
+    {
+        <div class="col-md-6 text-muted">
+            <video style="width:100%" controls id="videoPlayer">
+                <source src="@Model.File" type="video/mp4" />
+            </video>
+            <div class="mt-2">
+                <strong>Anlık Süre:</strong> <span id="currentTime">00:00:00</span>
+            </div>
+
+            @if (Model.VideoChapters != null && Model.VideoChapters.Any())
+            {
+                <hr />
+                <h5>Bölümler</h5>
+                <div>
+                    @foreach (var chapter in Model.VideoChapters.OrderBy(c => c.StartTime))
+                    {
+                        <button type="button" class="btn btn-outline-primary btn-sm m-1" onclick="seekTo('@chapter.StartTime')">
+                            @chapter.Title
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="col-md-2"></div>
+        <div class="col-md-4 text-muted">
+            <img src="~/FIRM_LOGO.png" alt="Firm Logo" />
+        </div>
+    }
+    <div class="col-md-1"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const timeDisplay = document.getElementById('currentTime');
+
+        function seekTo(timeString) {
+            const parts = timeString.split(':').map(Number);
+            let seconds = 0;
+            if (parts.length === 3) {
+                seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+            } else if (parts.length === 2) {
+                seconds = parts[0] * 60 + parts[1];
+            }
+            video.currentTime = seconds;
+            video.play();
+        }
+
+        if (video) {
+            video.addEventListener('timeupdate', function () {
+                const totalSeconds = Math.floor(video.currentTime);
+                const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+                const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+                const seconds = String(totalSeconds % 60).padStart(2, '0');
+                timeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+            });
+        }
+    </script>
+}
